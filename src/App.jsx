@@ -9,7 +9,7 @@ import {
 
 const nav = [['experiencia','Experiência'],['recursos','Recursos'],['seguranca','Segurança'],['apoie','Apoie']]
 const UPDATE_BASE_URL = (import.meta.env.NEXT_PUBLIC_UPDATE_URL || 'https://plus-rosa-jvc-beta.trycloudflare.com/windows').replace(/\/$/, '')
-const DOWNLOAD_URL = `${UPDATE_BASE_URL}/Instalador.exe`
+const DOWNLOAD_URL = `${UPDATE_BASE_URL}/PersonalHub.exe`
 const DOWNLOAD_FILENAME = 'FlexHub-Setup.exe'
 
 function Logo() {

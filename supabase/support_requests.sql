@@ -30,6 +30,46 @@ create index if not exists support_requests_email_idx
 
 alter table public.support_requests enable row level security;
 
+-- Limita cada e-mail a 2 solicitações em uma janela móvel de 24 horas.
+-- A trava por e-mail evita que envios simultâneos ultrapassem o limite.
+create or replace function public.enforce_support_request_rate_limit()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  recent_requests integer;
+  normalized_email text;
+begin
+  normalized_email := lower(trim(new.email));
+  new.email := normalized_email;
+
+  perform pg_advisory_xact_lock(hashtextextended(normalized_email, 0));
+
+  select count(*)
+    into recent_requests
+    from public.support_requests
+   where lower(email) = normalized_email
+     and created_at >= now() - interval '24 hours';
+
+  if recent_requests >= 2 then
+    raise exception using
+      errcode = 'P0001',
+      message = 'SUPPORT_RATE_LIMIT_EXCEEDED';
+  end if;
+
+  return new;
+end;
+$$;
+
+revoke all on function public.enforce_support_request_rate_limit() from public;
+
+drop trigger if exists support_requests_rate_limit on public.support_requests;
+create trigger support_requests_rate_limit
+  before insert on public.support_requests
+  for each row execute function public.enforce_support_request_rate_limit();
+
 -- O site público pode enviar, mas não pode ler, editar ou apagar solicitações.
 drop policy if exists "public can submit support requests" on public.support_requests;
 create policy "public can submit support requests"

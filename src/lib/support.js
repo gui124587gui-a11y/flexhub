@@ -35,6 +35,9 @@ export async function createSupportRequest(payload) {
     } catch {
       // A resposta pode vir sem corpo em falhas de rede ou proxy.
     }
+    if (detail.includes('SUPPORT_RATE_LIMIT_EXCEEDED')) {
+      throw new Error('Você já enviou 2 mensagens nas últimas 24 horas. Tente novamente mais tarde.')
+    }
     throw new Error(detail || 'Não foi possível enviar agora. Tente novamente em instantes.')
   }
 }

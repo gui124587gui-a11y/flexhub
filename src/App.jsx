@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   Activity, AppWindow, ArrowRight, Bot, Box, Check, ChevronRight, Clock3, CloudDownload,
   Code2, Command, Download, FileArchive, Fingerprint, FolderSearch, Gauge, Gift, Globe2,
@@ -9,9 +9,63 @@ import {
 import SupportModal from './SupportModal'
 
 const nav = [['experiencia','Experiência'],['recursos','Recursos'],['seguranca','Segurança'],['apoie','Apoie']]
-const UPDATE_BASE_URL = (import.meta.env.NEXT_PUBLIC_UPDATE_URL || 'https://plus-rosa-jvc-beta.trycloudflare.com/windows').replace(/\/$/, '')
-const DOWNLOAD_URL = `${UPDATE_BASE_URL}/PersonalHub.exe`
-const DOWNLOAD_FILENAME = 'FlexHub-Setup.exe'
+const UPDATE_BASE_URL = (import.meta.env.NEXT_PUBLIC_UPDATE_URL || 'https://dem-angela-tag-rpm.trycloudflare.com/windows').replace(/\/$/, '')
+const DOWNLOAD_URL = `${UPDATE_BASE_URL}/FlexHub.exe`
+const DOWNLOAD_FILENAME = 'FlexHub.exe'
+const DOWNLOAD_SHA256 = 'DFC9AD3D1B22A818A2944F893DA92921A40FAB83A3E481336128A92633326266'
+const LAUNCH_AT = new Date(import.meta.env.VITE_LAUNCH_AT || '2026-08-11T13:00:00-03:00')
+
+function getTimeLeft() {
+  const remaining = Math.max(0, LAUNCH_AT.getTime() - Date.now())
+  return {
+    remaining,
+    days: Math.floor(remaining / 86400000),
+    hours: Math.floor((remaining / 3600000) % 24),
+    minutes: Math.floor((remaining / 60000) % 60),
+    seconds: Math.floor((remaining / 1000) % 60),
+  }
+}
+
+function LaunchScreen({ timeLeft }) {
+  const units = [
+    ['Dias', timeLeft.days],
+    ['Horas', timeLeft.hours],
+    ['Minutos', timeLeft.minutes],
+    ['Segundos', timeLeft.seconds],
+  ]
+
+  return <main className="launch-screen relative grid min-h-screen place-items-center overflow-hidden px-5 py-12 text-center">
+    <div className="fixed inset-0 -z-30 bg-[#09070f]"/>
+    <div className="noise pointer-events-none fixed inset-0 -z-20 opacity-[.025]"/>
+    <div className="orb fixed -left-32 top-0 -z-10 h-[520px] w-[520px] rounded-full bg-violet-700"/>
+    <div className="orb fixed -right-48 bottom-0 -z-10 h-[620px] w-[620px] rounded-full bg-fuchsia-800"/>
+    <div className="dot-grid absolute inset-0 -z-10 opacity-50"/>
+
+    <div className="reveal mx-auto w-full max-w-4xl">
+      <div className="mx-auto mb-10 flex w-fit items-center gap-2.5 font-display text-xl font-bold tracking-tight text-white">
+        <span className="grid h-10 w-10 place-items-center rounded-xl bg-violet-600 shadow-[0_0_30px_rgba(139,92,246,.55)]"><Command size={21}/></span>
+        <span>Flex<span className="text-violet-400">Hub</span></span>
+      </div>
+      <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/[.08] px-4 py-2 text-xs font-semibold uppercase tracking-[.16em] text-violet-200">
+        <Rocket size={14}/> Estamos quase prontos
+      </div>
+      <h1 className="font-display text-4xl font-extrabold leading-[1.06] tracking-[-.045em] text-white sm:text-6xl lg:text-7xl">
+        Uma nova experiência<br/><span className="text-gradient">está chegando.</span>
+      </h1>
+      <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-zinc-400 sm:text-lg">
+        O FlexHub será lançado hoje, às 13h. Prepare-se para transformar o seu Windows.
+      </p>
+
+      <div className="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4" aria-label="Contagem regressiva para o lançamento">
+        {units.map(([label,value]) => <div key={label} className="glass rounded-2xl px-3 py-5 sm:py-7">
+          <strong className="font-display text-3xl font-bold tabular-nums text-white sm:text-5xl">{String(value).padStart(2, '0')}</strong>
+          <span className="mt-2 block text-[10px] font-bold uppercase tracking-[.16em] text-zinc-500">{label}</span>
+        </div>)}
+      </div>
+      <div className="mt-9 flex items-center justify-center gap-2 text-sm text-zinc-500"><Sparkles size={15} className="text-violet-400"/> A página será liberada automaticamente.</div>
+    </div>
+  </main>
+}
 
 function Logo() {
   return <a href="#inicio" className="flex items-center gap-2.5 font-display font-bold tracking-tight text-white">
@@ -108,9 +162,18 @@ function SmartScreenGuide() {
 }
 
 function App() {
+  const [timeLeft,setTimeLeft] = useState(getTimeLeft)
   const [menu,setMenu] = useState(false)
   const [supportOpen,setSupportOpen] = useState(false)
   const closeSupport = useCallback(() => setSupportOpen(false), [])
+  useEffect(() => {
+    if (timeLeft.remaining === 0) return undefined
+    const timer = window.setInterval(() => setTimeLeft(getTimeLeft()), 1000)
+    return () => window.clearInterval(timer)
+  }, [timeLeft.remaining])
+
+  if (timeLeft.remaining > 0) return <LaunchScreen timeLeft={timeLeft}/>
+
   return <div className="relative overflow-hidden">
     <div className="fixed inset-0 -z-30 bg-[#09070f]"/><div className="noise pointer-events-none fixed inset-0 -z-20 opacity-[.025]"/>
     <div className="orb fixed -left-40 top-20 -z-10 h-[500px] w-[500px] rounded-full bg-violet-700"/><div className="orb fixed -right-64 top-[45%] -z-10 h-[600px] w-[600px] rounded-full bg-fuchsia-800"/>
@@ -165,7 +228,7 @@ function App() {
 
       <section id="apoie" className="px-5 py-20 lg:px-8"><div className="mx-auto max-w-5xl rounded-[30px] border border-violet-400/20 bg-[radial-gradient(circle_at_top,#4c1d95_0%,#151020_52%,#0d0b12_100%)] p-7 text-center sm:p-14"><div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-violet-500 text-white shadow-[0_0_40px_rgba(139,92,246,.4)]"><Heart size={25} fill="currentColor"/></div><p className="mt-7 text-xs font-bold uppercase tracking-[.2em] text-violet-300">Desenvolvimento independente</p><h2 className="mx-auto mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight sm:text-5xl">Apoie uma vez.<br/>Ganhe mais, <span className="text-violet-400">para sempre.</span></h2><p className="mx-auto mt-6 max-w-2xl leading-7 text-zinc-400">Contribua com qualquer valor a partir de <strong className="text-white">R$ 5 via PIX</strong> no próprio app e libere downloads ilimitados no Instalador Mágico + cota expandida no Chatbot.</p><Button className="mt-9"><Heart size={16}/> Quero apoiar o FlexHub</Button><p className="mt-4 text-[11px] text-zinc-600">Pagamento único · Sem assinatura · Ativação imediata</p></div></section>
 
-      <section id="download" className="px-5 py-24 text-center lg:px-8"><div className="mx-auto max-w-3xl"><SectionLabel icon={AppWindow}>Pronto para começar?</SectionLabel><h2 className="font-display text-4xl font-bold tracking-tight sm:text-6xl">Seu Windows merece<br/><span className="text-gradient">trabalhar com você.</span></h2><p className="mt-6 text-zinc-500">Comece grátis. Personalize tudo. Evolua no seu ritmo.</p>{/* O link do instalador vem de NEXT_PUBLIC_UPDATE_URL no Vercel. */}<Button href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} className="mt-9 !px-7 !py-4"><Download size={18}/> Baixar FlexHub para Windows</Button><div className="mt-5 text-xs text-zinc-700">Versão 1.0 · Windows 10/11 · 64-bit</div></div></section>
+      <section id="download" className="px-5 py-24 text-center lg:px-8"><div className="mx-auto max-w-3xl"><SectionLabel icon={AppWindow}>Pronto para começar?</SectionLabel><h2 className="font-display text-4xl font-bold tracking-tight sm:text-6xl">Seu Windows merece<br/><span className="text-gradient">trabalhar com você.</span></h2><p className="mt-6 text-zinc-500">Comece grátis. Personalize tudo. Evolua no seu ritmo.</p>{/* O link do instalador vem de NEXT_PUBLIC_UPDATE_URL no Vercel. */}<Button href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} className="mt-9 !px-7 !py-4"><Download size={18}/> Baixar FlexHub para Windows</Button><div className="mt-5 text-xs text-zinc-700">Versão 1.4.4 · Windows 10/11 · 64-bit</div><div className="mx-auto mt-6 max-w-2xl rounded-xl border border-white/[.07] bg-white/[.025] px-4 py-3"><div className="text-[10px] font-bold uppercase tracking-[.16em] text-zinc-500">SHA-256 do instalador</div><code className="mt-2 block break-all text-[11px] leading-5 text-violet-300 sm:text-xs">{DOWNLOAD_SHA256}</code></div></div></section>
 
       <SmartScreenGuide/>
     </main>

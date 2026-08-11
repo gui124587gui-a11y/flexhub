@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import {
   Activity, AppWindow, ArrowRight, Bot, Box, Check, ChevronRight, Clock3, CloudDownload,
   Code2, Command, Download, FileArchive, Fingerprint, FolderSearch, Gauge, Gift, Globe2,
   Grid2X2, Heart, Languages, LayoutDashboard, LockKeyhole, Menu, MousePointer2, PackageCheck,
   PanelTop, Play, PlugZap, Rocket, Search, ShieldAlert, ShieldCheck, Sparkles, Target, TimerReset, Trash2,
-  TrendingUp, WandSparkles, X, Zap
+  MessageSquareText, TrendingUp, WandSparkles, X, Zap
 } from 'lucide-react'
+import SupportModal from './SupportModal'
 
 const nav = [['experiencia','Experiência'],['recursos','Recursos'],['seguranca','Segurança'],['apoie','Apoie']]
 const UPDATE_BASE_URL = (import.meta.env.NEXT_PUBLIC_UPDATE_URL || 'https://plus-rosa-jvc-beta.trycloudflare.com/windows').replace(/\/$/, '')
@@ -108,6 +109,8 @@ function SmartScreenGuide() {
 
 function App() {
   const [menu,setMenu] = useState(false)
+  const [supportOpen,setSupportOpen] = useState(false)
+  const closeSupport = useCallback(() => setSupportOpen(false), [])
   return <div className="relative overflow-hidden">
     <div className="fixed inset-0 -z-30 bg-[#09070f]"/><div className="noise pointer-events-none fixed inset-0 -z-20 opacity-[.025]"/>
     <div className="orb fixed -left-40 top-20 -z-10 h-[500px] w-[500px] rounded-full bg-violet-700"/><div className="orb fixed -right-64 top-[45%] -z-10 h-[600px] w-[600px] rounded-full bg-fuchsia-800"/>
@@ -167,7 +170,9 @@ function App() {
       <SmartScreenGuide/>
     </main>
 
-    <footer className="border-t border-white/[.06] px-5 py-9 lg:px-8"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row"><Logo/><div className="flex flex-wrap justify-center gap-6 text-xs text-zinc-600"><a href="#seguranca" className="hover:text-white">Segurança</a><a href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} target="_self" className="hover:text-white">Download Windows</a><a href="#" className="hover:text-white">Privacidade</a><a href="#" className="hover:text-white">Termos</a></div><div className="text-center text-xs text-zinc-700 sm:text-right"><p>© 2026 FlexHub. Todos os direitos reservados.</p><p className="mt-1">Feito por <a href="mailto:gml.developer.br@gmail.com" className="transition hover:text-violet-400">gml.developer.br@gmail.com</a></p></div></div></footer>
+    <footer className="border-t border-white/[.06] px-5 py-9 lg:px-8"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row"><Logo/><div className="flex flex-wrap justify-center gap-6 text-xs text-zinc-600"><a href="#seguranca" className="hover:text-white">Segurança</a><a href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} target="_self" className="hover:text-white">Download Windows</a><button type="button" onClick={() => setSupportOpen(true)} className="hover:text-white">Feedback e ajuda</button><a href="#" className="hover:text-white">Privacidade</a><a href="#" className="hover:text-white">Termos</a></div><div className="text-center text-xs text-zinc-700 sm:text-right"><p>© 2026 FlexHub. Todos os direitos reservados.</p><p className="mt-1">Feito por <a href="mailto:gml.developer.br@gmail.com" className="transition hover:text-violet-400">gml.developer.br@gmail.com</a></p></div></div></footer>
+    <button type="button" onClick={() => setSupportOpen(true)} className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full border border-violet-400/25 bg-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(124,58,237,.4)] transition hover:-translate-y-0.5 hover:bg-violet-500" aria-label="Abrir feedback e ajuda"><MessageSquareText size={18}/> <span className="hidden sm:inline">Feedback e ajuda</span></button>
+    <SupportModal open={supportOpen} onClose={closeSupport}/>
   </div>
 }
 

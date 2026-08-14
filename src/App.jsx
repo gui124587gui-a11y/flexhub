@@ -9,7 +9,7 @@ import {
 import SupportModal from './SupportModal'
 import DownloadsSection from './DownloadsSection'
 
-const nav = [['experiencia','Experiência'],['recursos','Recursos'],['seguranca','Segurança'],['download','Downloads'],['apoie','Apoie']]
+const nav = [['plataformas','Plataformas'],['experiencia','Experiência'],['recursos','Recursos'],['seguranca','Segurança'],['download','Downloads']]
 const LAUNCH_AT = new Date(import.meta.env.VITE_LAUNCH_AT || '2026-08-11T13:00:00-03:00')
 
 function getTimeLeft() {
@@ -50,7 +50,7 @@ function LaunchScreen({ timeLeft }) {
         Uma nova experiência<br/><span className="text-gradient">está chegando.</span>
       </h1>
       <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-zinc-400 sm:text-lg">
-        O FlexHub será lançado hoje, às 13h. Prepare-se para transformar o seu Windows.
+        O FlexHub será lançado hoje, às 13h. Prepare-se para transformar sua rotina no Windows, Linux e Chromebook.
       </p>
 
       <div className="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4" aria-label="Contagem regressiva para o lançamento">
@@ -111,15 +111,15 @@ function AppMockup() {
 
 const productivity = [
   [LayoutDashboard,'Dashboard & Widgets','Monte seu painel com arrastar e soltar, galeria completa e quatro tamanhos flexíveis.'],
-  [Bot,'Chatbot com IA integrada','Um assistente no desktop: 15 mensagens por dia no plano free e cota ampliada para apoiadores.'],
-  [Rocket,'Workspaces inteligentes','Abra programas, pastas, URLs e comandos em conjunto com um único clique.'],
-  [Search,'Busca Universal','Pressione Ctrl + K e encontre apps, ações e arquivos indexados no Windows em segundos.'],
+  [Bot,'Chatbot com IA integrada','Um assistente no seu computador: 15 mensagens por dia no plano free e cota ampliada para apoiadores.'],
+  [Rocket,'Workspaces inteligentes','Reúna programas, pastas, URLs e comandos em um só fluxo, em qualquer plataforma compatível.'],
+  [Search,'Busca Universal','Pressione Ctrl + K e encontre apps, ações e arquivos em segundos.'],
   [Clock3,'Ferramentas do dia a dia','Pomodoro, modo foco, notas, agenda, lembretes e player/Spotify no mesmo lugar.']
 ]
 
 const extras = [
   [Clock3,'Automações agendadas','Deixe tarefas recorrentes rodarem no horário certo.','md:col-span-2'],
-  [Gauge,'Inicialização sob controle','Escolha o que abre com o Windows.',''],
+  [Gauge,'Inicialização sob controle','Gerencie sua experiência de inicialização nos sistemas compatíveis.',''],
   [PlugZap,'Plugins locais','Expanda o hub com manifestos seguros.',''],
   [Languages,'Feito para o seu idioma','i18n e atalhos totalmente personalizados.','md:col-span-2'],
   [Target,'Progresso que motiva','Metas, conquistas, estatísticas e relatórios em CSV.','md:col-span-2'],
@@ -128,7 +128,7 @@ const extras = [
 
 function SmartScreenGuide() {
   const steps = [
-    ['01', 'Baixe o instalador', 'Salve o arquivo FlexHub-Setup.exe normalmente pelo navegador.', Download],
+    ['01', 'Baixe o instalador', 'Salve o arquivo FlexHub.exe normalmente pelo navegador.', Download],
     ['02', 'Abra “Mais informações”', 'Se o SmartScreen aparecer, confira o nome do aplicativo e clique em “Mais informações”.', Search],
     ['03', 'Confirme a instalação', 'Depois de verificar a origem do arquivo, escolha “Executar assim mesmo”.', MousePointer2],
   ]
@@ -137,12 +137,12 @@ function SmartScreenGuide() {
     <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/[.08] bg-[#0d0b13]">
       <div className="grid lg:grid-cols-[.9fr_1.1fr]">
         <div className="border-b border-white/[.07] p-7 sm:p-10 lg:border-b-0 lg:border-r lg:p-12">
-          <SectionLabel icon={ShieldAlert}>Antes de instalar</SectionLabel>
+          <SectionLabel icon={ShieldAlert}>Instalação no Windows</SectionLabel>
           <h2 id="smartscreen-title" className="font-display text-3xl font-bold tracking-tight sm:text-4xl">O Windows exibiu um alerta?</h2>
           <p className="mt-5 text-sm leading-7 text-zinc-400">Aplicativos novos ou ainda sem reputação suficiente podem acionar o Microsoft Defender SmartScreen. Isso não substitui sua verificação: baixe apenas pelo site oficial e confira o arquivo antes de continuar.</p>
           <div className="mt-7 flex items-start gap-3 rounded-xl border border-emerald-400/15 bg-emerald-500/[.06] p-4">
             <ShieldCheck className="mt-0.5 shrink-0 text-emerald-400" size={18}/>
-            <p className="text-xs leading-5 text-zinc-400"><strong className="text-emerald-300">Dica de segurança:</strong> confirme que o arquivo se chama <span className="text-zinc-200">FlexHub-Setup.exe</span> e valide o hash SHA-256 publicado nesta página.</p>
+            <p className="text-xs leading-5 text-zinc-400"><strong className="text-emerald-300">Dica de segurança:</strong> confirme que o arquivo foi baixado pelo site oficial e se chama <span className="text-zinc-200">FlexHub.exe</span>.</p>
           </div>
         </div>
         <div className="p-7 sm:p-10 lg:p-12">
@@ -187,37 +187,41 @@ function App() {
     <main>
       <section id="inicio" className="dot-grid relative px-5 pb-20 pt-36 sm:pt-44 lg:px-8">
         <div className="mx-auto max-w-5xl text-center reveal">
-          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/[.08] px-4 py-2 text-xs font-medium text-violet-200 shadow-[0_0_30px_rgba(139,92,246,.1)]"><Rocket size={14}/> O ecossistema definitivo para o seu Windows</div>
-          <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-[-.045em] text-white sm:text-6xl lg:text-[76px]">O seu Windows, do seu jeito.<br/><span className="text-gradient">Conheça o SeuNomeHub.</span></h1>
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-zinc-400 sm:text-lg">Personalize seu workspace, automatize rotinas, gerencie arquivos, utilize IA e baixe programas com segurança — em um app feito sob medida para você.</p>
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/[.08] px-4 py-2 text-xs font-medium text-violet-200 shadow-[0_0_30px_rgba(139,92,246,.1)]"><Rocket size={14}/> Um só hub para Windows, Linux e Chromebook</div>
+          <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-[-.045em] text-white sm:text-6xl lg:text-[76px]">Sua rotina, do seu jeito.<br/><span className="text-gradient">Em qualquer computador.</span></h1>
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-zinc-400 sm:text-lg">Personalize seu workspace, organize tarefas, gerencie arquivos e use IA no Windows, no Linux ou no Chromebook — com uma experiência feita sob medida para você.</p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"><Button href="#download" className="sm:min-w-60"><Download size={17}/> Ver downloads <span className="text-violet-200">— Grátis</span></Button><Button href="#recursos" variant="secondary" className="sm:min-w-44">Explorar recursos <ChevronRight size={16}/></Button></div>
-          <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[11px] text-zinc-600"><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Windows 10 e 11</span><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Instalação segura</span><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Sem cartão</span></div>
+          <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[11px] text-zinc-500"><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Windows 10 e 11</span><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Linux x64 e ARM64</span><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Chromebook com Linux</span><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Grátis e sem cartão</span></div>
         </div>
         <div className="mx-auto mt-16 max-w-6xl reveal" style={{animationDelay:'.15s'}}><AppMockup/></div>
       </section>
 
+      <section id="plataformas" className="border-y border-white/[.06] bg-white/[.018] px-5 py-20 lg:px-8" aria-labelledby="platforms-title"><div className="mx-auto max-w-6xl"><div className="text-center"><SectionLabel icon={Command}>Um FlexHub, três sistemas</SectionLabel><h2 id="platforms-title" className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Escolha seu sistema.<br/><span className="text-gradient">Sua rotina continua com você.</span></h2><p className="mx-auto mt-5 max-w-2xl text-zinc-400">A mesma base de produtividade, organização e segurança, com instalação adequada para cada plataforma.</p></div><div className="mt-12 grid gap-4 md:grid-cols-3">
+        {[['Windows','Windows 10 e 11 · x64','Instalador EXE, produtividade completa e ferramentas administrativas exclusivas.'],['Linux','Intel/AMD x64 ou ARM64','Pacote DEB para distribuições Debian e AppImage portátil.'],['Chromebook','Intel/AMD x64 ou ARM64','Instalação pelo Ambiente de desenvolvimento Linux do ChromeOS.']].map(([name,support,description])=><article key={name} className="glass rounded-2xl p-6"><span className="grid h-11 w-11 place-items-center rounded-xl bg-violet-500/10 font-display text-lg font-bold text-violet-300">{name[0]}</span><h3 className="mt-6 font-display text-xl font-bold">{name}</h3><p className="mt-2 text-xs font-semibold uppercase tracking-wider text-violet-400">{support}</p><p className="mt-4 text-sm leading-6 text-zinc-500">{description}</p><a href="#download" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-zinc-200 transition hover:text-violet-300">Ver opções <ChevronRight size={15}/></a></article>)}
+      </div></div></section>
+
       <section id="experiencia" className="px-5 py-24 lg:px-8"><div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-2">
-        <div><SectionLabel icon={Fingerprint}>Identidade única</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Um hub que leva<br/><span className="text-violet-400">o seu nome.</span></h2><p className="mt-6 max-w-xl leading-7 text-zinc-400">Na instalação, o FlexHub aprende quem você é e transforma a experiência em um painel pessoal exclusivo. Seu nome, suas rotinas e seu jeito de trabalhar — desde o primeiro acesso.</p><div className="mt-8 flex flex-wrap gap-2">{['JoseHub','LucasHub','AnaHub'].map((x,i)=><span key={x} className={`rounded-full border px-4 py-2 text-sm ${i===1?'border-violet-400/40 bg-violet-500/15 text-violet-200':'border-white/10 text-zinc-600'}`}>{x}</span>)}</div></div>
+        <div><SectionLabel icon={Fingerprint}>Identidade única</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Um hub que leva<br/><span className="text-violet-400">o seu nome.</span></h2><p className="mt-6 max-w-xl leading-7 text-zinc-400">No Windows, Linux ou Chromebook, o FlexHub transforma a experiência em um painel pessoal exclusivo. Seu nome, suas rotinas e seu jeito de trabalhar — desde o primeiro acesso.</p><div className="mt-8 flex flex-wrap gap-2">{['JoseHub','LucasHub','AnaHub'].map((x,i)=><span key={x} className={`rounded-full border px-4 py-2 text-sm ${i===1?'border-violet-400/40 bg-violet-500/15 text-violet-200':'border-white/10 text-zinc-600'}`}>{x}</span>)}</div></div>
         <div className="glass relative rounded-3xl p-6 sm:p-9"><div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-violet-600/20 blur-3xl"/><p className="text-xs font-semibold uppercase tracking-widest text-zinc-600">Personalização em tempo real</p><div className="mt-8 space-y-4">{[['Como podemos chamar você?','Lucas'],['Nome do seu espaço','LucasHub'],['Estilo do painel','Produtividade']].map(([l,v],i)=><div key={l} className="rounded-xl border border-white/[.07] bg-black/20 p-4"><span className="text-xs text-zinc-600">{l}</span><div className="mt-2 flex items-center justify-between font-semibold"><span>{v}</span>{i===1?<Sparkles size={16} className="text-violet-400"/>:<Check size={16} className="text-emerald-500"/>}</div></div>)}</div></div>
       </div></section>
 
       <section className="border-y border-white/[.06] bg-white/[.018] px-5 py-24 lg:px-8"><div className="mx-auto max-w-6xl">
-        <div className="max-w-3xl"><SectionLabel icon={WandSparkles}>Instalador mágico</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Seus programas. <span className="text-gradient">Só de fontes seguras.</span></h2><p className="mt-5 text-zinc-400">Do download à limpeza, controle tudo sem navegar por sites duvidosos ou deixar resíduos no sistema.</p></div>
+        <div className="max-w-3xl"><SectionLabel icon={WandSparkles}>Ferramentas administrativas no Windows</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Seus programas. <span className="text-gradient">Só de fontes seguras.</span></h2><p className="mt-5 text-zinc-400">No Windows, o FlexHub também oferece catálogo, monitoramento e ferramentas avançadas de instalação. A experiência de produtividade continua disponível no Linux e Chromebook.</p></div>
         <div className="mt-12 grid gap-4 lg:grid-cols-3">
           <div className="glass rounded-2xl p-6 lg:col-span-2"><CloudDownload className="text-violet-400"/><h3 className="mt-8 font-display text-xl font-bold">Catálogo oficial e completo</h3><p className="mt-3 max-w-xl text-sm leading-6 text-zinc-500">Baixe pacotes de até 10 GB com segurança e acompanhamento em tempo real.</p><div className="mt-6 flex flex-wrap gap-2">{['EXE','MSI','MSIX','APPX','ZIP','7Z','RAR'].map(x=><span key={x} className="rounded-md border border-white/[.07] bg-white/[.03] px-2.5 py-1 text-[10px] font-bold text-zinc-500">{x}</span>)}</div></div>
-          <div className="glass rounded-2xl p-6"><ShieldCheck className="text-emerald-400"/><h3 className="mt-8 font-display text-xl font-bold">VirusTotal integrado</h3><p className="mt-3 text-sm leading-6 text-zinc-500">Arquivos verificados automaticamente antes de chegar ao seu PC.</p><div className="mt-6 flex items-center gap-2 text-xs text-emerald-400"><span className="h-2 w-2 rounded-full bg-emerald-400 pulse-soft"/> Verificação concluída</div></div>
+          <div className="glass rounded-2xl p-6"><ShieldCheck className="text-emerald-400"/><h3 className="mt-8 font-display text-xl font-bold">VirusTotal integrado</h3><p className="mt-3 text-sm leading-6 text-zinc-500">Arquivos verificados automaticamente antes de chegar ao seu computador.</p><div className="mt-6 flex items-center gap-2 text-xs text-emerald-400"><span className="h-2 w-2 rounded-full bg-emerald-400 pulse-soft"/> Verificação concluída</div></div>
           <div className="glass rounded-2xl p-6"><Trash2 className="text-fuchsia-400"/><h3 className="mt-8 font-display text-xl font-bold">Desinstalador Mágico</h3><p className="mt-3 text-sm leading-6 text-zinc-500">Remova programas e resíduos com precisão.</p></div>
           <div className="glass rounded-2xl p-6"><Activity className="text-orange-400"/><h3 className="mt-8 font-display text-xl font-bold">Monitor inteligente</h3><p className="mt-3 text-sm leading-6 text-zinc-500">Encontre processos pesados e recupere memória.</p></div>
           <div className="rounded-2xl border border-violet-400/20 bg-violet-500/[.08] p-6"><Gift className="text-violet-400"/><h3 className="mt-8 font-display text-xl font-bold">Freemium transparente</h3><p className="mt-3 text-sm leading-6 text-zinc-400"><strong className="text-white">5 downloads por dia</strong> no plano grátis. Ilimitados para quem apoia.</p></div>
         </div>
       </div></section>
 
-      <section id="recursos" className="px-5 py-24 lg:px-8"><div className="mx-auto max-w-6xl"><div className="text-center"><SectionLabel icon={Bot}>Produtividade & IA</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Tudo flui em um só lugar.</h2><p className="mx-auto mt-5 max-w-2xl text-zinc-500">Menos janelas, menos interrupções e mais tempo para o que realmente importa.</p></div>
+      <section id="recursos" className="px-5 py-24 lg:px-8"><div className="mx-auto max-w-6xl"><div className="text-center"><SectionLabel icon={Bot}>Produtividade & IA nos três sistemas</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Tudo flui em um só lugar.</h2><p className="mx-auto mt-5 max-w-2xl text-zinc-500">No Windows, Linux ou Chromebook: menos janelas, menos interrupções e mais tempo para o que realmente importa.</p></div>
         <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{productivity.map(([I,t,d],i)=><div key={t} className={`glass group rounded-2xl p-6 transition duration-300 hover:-translate-y-1 ${i===0||i===4?'lg:col-span-2':''}`}><div className="grid h-10 w-10 place-items-center rounded-xl bg-violet-500/10 text-violet-400 transition group-hover:bg-violet-500 group-hover:text-white"><I size={20}/></div><h3 className="mt-7 font-display text-lg font-bold">{t}</h3><p className="mt-3 max-w-xl text-sm leading-6 text-zinc-500">{d}</p></div>)}</div>
       </div></section>
 
       <section id="seguranca" className="px-5 py-20 lg:px-8"><div className="purple-shadow relative mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-violet-400/20 bg-gradient-to-br from-violet-950/50 to-[#0d0a14] p-7 sm:p-12 lg:p-16"><div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-violet-600/20 blur-[100px]"/>
-        <div className="relative grid items-center gap-12 lg:grid-cols-[1fr_.8fr]"><div><SectionLabel icon={LockKeyhole}>Cofre & Privacidade</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Seus dados ficam seus.<br/><span className="text-violet-400">Ponto final.</span></h2><p className="mt-6 max-w-xl leading-7 text-zinc-400">Proteção de nível avançado, pensada para funcionar de forma silenciosa enquanto você produz.</p><div className="mt-8 space-y-4">{['Cofre criptografado com AES-256-GCM','Backup, exportação e importação segura','Dados protegidos localmente'].map(x=><div key={x} className="flex items-center gap-3 text-sm text-zinc-300"><span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/10 text-emerald-400"><Check size={13}/></span>{x}</div>)}</div></div>
+        <div className="relative grid items-center gap-12 lg:grid-cols-[1fr_.8fr]"><div><SectionLabel icon={LockKeyhole}>Cofre & Privacidade multiplataforma</SectionLabel><h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">Seus dados ficam seus.<br/><span className="text-violet-400">Ponto final.</span></h2><p className="mt-6 max-w-xl leading-7 text-zinc-400">Proteção disponível no Windows, Linux e Chromebook, pensada para funcionar de forma silenciosa enquanto você produz.</p><div className="mt-8 space-y-4">{['Cofre criptografado com AES-256-GCM','Backup, exportação e importação segura','Dados protegidos localmente'].map(x=><div key={x} className="flex items-center gap-3 text-sm text-zinc-300"><span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/10 text-emerald-400"><Check size={13}/></span>{x}</div>)}</div></div>
           <div className="glass rounded-2xl p-6 sm:p-8"><div className="flex items-center justify-between"><span className="font-display font-bold">Clipboard inteligente</span><span className="rounded-full bg-emerald-500/10 px-3 py-1 text-[10px] font-bold text-emerald-400">PROTEGIDO</span></div><div className="mt-8 space-y-3">{[['Texto copiado','Disponível no histórico',Check,'text-emerald-400'],['•••• •••• •••• 4242','Dado sensível ignorado',LockKeyhole,'text-violet-400'],['sk_live_••••••••','Token ignorado',LockKeyhole,'text-violet-400']].map(([a,b,I,c])=><div key={a} className="flex items-center justify-between rounded-xl border border-white/[.06] bg-black/20 p-4"><div><div className="text-xs font-medium">{a}</div><div className="mt-1 text-[10px] text-zinc-600">{b}</div></div><I size={15} className={c}/></div>)}</div></div>
         </div></div></section>
 

@@ -1,18 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import {
-  Activity, AppWindow, ArrowRight, Bot, Box, Check, ChevronRight, Clock3, CloudDownload,
-  Code2, Command, Download, FileArchive, Fingerprint, FolderSearch, Gauge, Gift, Globe2,
-  Grid2X2, Heart, Languages, LayoutDashboard, LockKeyhole, Menu, MousePointer2, PackageCheck,
-  PanelTop, Play, PlugZap, Rocket, Search, ShieldAlert, ShieldCheck, Sparkles, Target, TimerReset, Trash2,
+  Activity, ArrowRight, Bot, Box, Check, ChevronRight, Clock3, CloudDownload,
+  Command, Download, Fingerprint, FolderSearch, Gauge, Gift,
+  Grid2X2, Heart, Languages, LayoutDashboard, LockKeyhole, Menu, MousePointer2,
+  PlugZap, Rocket, Search, ShieldAlert, ShieldCheck, Sparkles, Target, TimerReset, Trash2,
   MessageSquareText, TrendingUp, WandSparkles, X, Zap
 } from 'lucide-react'
 import SupportModal from './SupportModal'
+import DownloadsSection from './DownloadsSection'
 
-const nav = [['experiencia','Experiência'],['recursos','Recursos'],['seguranca','Segurança'],['apoie','Apoie']]
-const UPDATE_BASE_URL = (import.meta.env.NEXT_PUBLIC_UPDATE_URL || 'https://dem-angela-tag-rpm.trycloudflare.com/windows').replace(/\/$/, '')
-const DOWNLOAD_URL = `${UPDATE_BASE_URL}/FlexHub.exe`
-const DOWNLOAD_FILENAME = 'FlexHub.exe'
-const DOWNLOAD_SHA256 = 'DFC9AD3D1B22A818A2944F893DA92921A40FAB83A3E481336128A92633326266'
+const nav = [['experiencia','Experiência'],['recursos','Recursos'],['seguranca','Segurança'],['download','Downloads'],['apoie','Apoie']]
 const LAUNCH_AT = new Date(import.meta.env.VITE_LAUNCH_AT || '2026-08-11T13:00:00-03:00')
 
 function getTimeLeft() {
@@ -181,10 +178,10 @@ function App() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[.06] bg-[#09070f]/75 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8"><Logo/>
         <div className="hidden items-center gap-8 md:flex">{nav.map(([id,label])=><a className="text-sm text-zinc-500 transition hover:text-white" href={`#${id}`} key={id}>{label}</a>)}</div>
-        <div className="hidden md:block"><Button href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} className="!px-4 !py-2.5">Baixar grátis <Download size={15}/></Button></div>
+        <div className="hidden md:block"><Button href="#download" className="!px-4 !py-2.5">Baixar grátis <Download size={15}/></Button></div>
         <button onClick={()=>setMenu(!menu)} aria-label="Abrir menu" className="text-zinc-300 md:hidden">{menu?<X/>:<Menu/>}</button>
       </nav>
-      {menu&&<div className="border-t border-white/[.06] bg-[#0c0912] px-5 py-4 md:hidden">{nav.map(([id,label])=><a onClick={()=>setMenu(false)} className="block py-3 text-zinc-300" href={`#${id}`} key={id}>{label}</a>)}<Button href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} className="mt-2 w-full">Baixar grátis <Download size={15}/></Button></div>}
+      {menu&&<div className="border-t border-white/[.06] bg-[#0c0912] px-5 py-4 md:hidden">{nav.map(([id,label])=><a onClick={()=>setMenu(false)} className="block py-3 text-zinc-300" href={`#${id}`} key={id}>{label}</a>)}<Button href="#download" className="mt-2 w-full">Baixar grátis <Download size={15}/></Button></div>}
     </header>
 
     <main>
@@ -193,7 +190,7 @@ function App() {
           <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/[.08] px-4 py-2 text-xs font-medium text-violet-200 shadow-[0_0_30px_rgba(139,92,246,.1)]"><Rocket size={14}/> O ecossistema definitivo para o seu Windows</div>
           <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-[-.045em] text-white sm:text-6xl lg:text-[76px]">O seu Windows, do seu jeito.<br/><span className="text-gradient">Conheça o SeuNomeHub.</span></h1>
           <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-zinc-400 sm:text-lg">Personalize seu workspace, automatize rotinas, gerencie arquivos, utilize IA e baixe programas com segurança — em um app feito sob medida para você.</p>
-          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"><Button href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} className="sm:min-w-60"><Download size={17}/> Baixar para Windows <span className="text-violet-200">— Grátis</span></Button><Button href="#recursos" variant="secondary" className="sm:min-w-44">Explorar recursos <ChevronRight size={16}/></Button></div>
+          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"><Button href="#download" className="sm:min-w-60"><Download size={17}/> Ver downloads <span className="text-violet-200">— Grátis</span></Button><Button href="#recursos" variant="secondary" className="sm:min-w-44">Explorar recursos <ChevronRight size={16}/></Button></div>
           <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[11px] text-zinc-600"><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Windows 10 e 11</span><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Instalação segura</span><span className="flex items-center gap-1.5"><Check size={12} className="text-emerald-500"/>Sem cartão</span></div>
         </div>
         <div className="mx-auto mt-16 max-w-6xl reveal" style={{animationDelay:'.15s'}}><AppMockup/></div>
@@ -228,12 +225,12 @@ function App() {
 
       <section id="apoie" className="px-5 py-20 lg:px-8"><div className="mx-auto max-w-5xl rounded-[30px] border border-violet-400/20 bg-[radial-gradient(circle_at_top,#4c1d95_0%,#151020_52%,#0d0b12_100%)] p-7 text-center sm:p-14"><div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-violet-500 text-white shadow-[0_0_40px_rgba(139,92,246,.4)]"><Heart size={25} fill="currentColor"/></div><p className="mt-7 text-xs font-bold uppercase tracking-[.2em] text-violet-300">Desenvolvimento independente</p><h2 className="mx-auto mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight sm:text-5xl">Apoie uma vez.<br/>Ganhe mais, <span className="text-violet-400">para sempre.</span></h2><p className="mx-auto mt-6 max-w-2xl leading-7 text-zinc-400">Contribua com qualquer valor a partir de <strong className="text-white">R$ 5 via PIX</strong> no próprio app e libere downloads ilimitados no Instalador Mágico + cota expandida no Chatbot.</p><Button className="mt-9"><Heart size={16}/> Quero apoiar o FlexHub</Button><p className="mt-4 text-[11px] text-zinc-600">Pagamento único · Sem assinatura · Ativação imediata</p></div></section>
 
-      <section id="download" className="px-5 py-24 text-center lg:px-8"><div className="mx-auto max-w-3xl"><SectionLabel icon={AppWindow}>Pronto para começar?</SectionLabel><h2 className="font-display text-4xl font-bold tracking-tight sm:text-6xl">Seu Windows merece<br/><span className="text-gradient">trabalhar com você.</span></h2><p className="mt-6 text-zinc-500">Comece grátis. Personalize tudo. Evolua no seu ritmo.</p>{/* O link do instalador vem de NEXT_PUBLIC_UPDATE_URL no Vercel. */}<Button href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} className="mt-9 !px-7 !py-4"><Download size={18}/> Baixar FlexHub para Windows</Button><div className="mt-5 text-xs text-zinc-700">Versão 1.4.4 · Windows 10/11 · 64-bit</div><div className="mx-auto mt-6 max-w-2xl rounded-xl border border-white/[.07] bg-white/[.025] px-4 py-3"><div className="text-[10px] font-bold uppercase tracking-[.16em] text-zinc-500">SHA-256 do instalador</div><code className="mt-2 block break-all text-[11px] leading-5 text-violet-300 sm:text-xs">{DOWNLOAD_SHA256}</code></div></div></section>
+      <DownloadsSection/>
 
       <SmartScreenGuide/>
     </main>
 
-    <footer className="border-t border-white/[.06] px-5 py-9 lg:px-8"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row"><Logo/><div className="flex flex-wrap justify-center gap-6 text-xs text-zinc-600"><a href="#seguranca" className="hover:text-white">Segurança</a><a href={DOWNLOAD_URL} download={DOWNLOAD_FILENAME} target="_self" className="hover:text-white">Download Windows</a><button type="button" onClick={() => setSupportOpen(true)} className="hover:text-white">Feedback e ajuda</button><a href="#" className="hover:text-white">Privacidade</a><a href="#" className="hover:text-white">Termos</a></div><div className="text-center text-xs text-zinc-700 sm:text-right"><p>© 2026 FlexHub. Todos os direitos reservados.</p><p className="mt-1">Feito por <a href="mailto:gml.developer.br@gmail.com" className="transition hover:text-violet-400">gml.developer.br@gmail.com</a></p></div></div></footer>
+    <footer className="border-t border-white/[.06] px-5 py-9 lg:px-8"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row"><Logo/><div className="flex flex-wrap justify-center gap-6 text-xs text-zinc-600"><a href="#seguranca" className="hover:text-white">Segurança</a><a href="#download" className="hover:text-white">Downloads</a><button type="button" onClick={() => setSupportOpen(true)} className="hover:text-white">Feedback e ajuda</button><a href="#" className="hover:text-white">Privacidade</a><a href="#" className="hover:text-white">Termos</a></div><div className="text-center text-xs text-zinc-700 sm:text-right"><p>© 2026 FlexHub. Todos os direitos reservados.</p><p className="mt-1">Feito por <a href="mailto:gml.developer.br@gmail.com" className="transition hover:text-violet-400">gml.developer.br@gmail.com</a></p></div></div></footer>
     <button type="button" onClick={() => setSupportOpen(true)} className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full border border-violet-400/25 bg-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_40px_rgba(124,58,237,.4)] transition hover:-translate-y-0.5 hover:bg-violet-500" aria-label="Abrir feedback e ajuda"><MessageSquareText size={18}/> <span className="hidden sm:inline">Feedback e ajuda</span></button>
     <SupportModal open={supportOpen} onClose={closeSupport}/>
   </div>

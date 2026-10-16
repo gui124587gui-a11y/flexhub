@@ -114,7 +114,7 @@ comment on table public.support_requests is 'Fila de feedbacks e solicitações 
 create table if not exists public.support_replies (
   id uuid primary key default gen_random_uuid(),
   support_request_id uuid not null references public.support_requests(id) on delete cascade,
-  author_id uuid not null default auth.uid() references auth.users(id) on delete restrict,
+  author_id uuid default auth.uid() references auth.users(id) on delete restrict,
   author_name text not null check (char_length(author_name) between 1 and 100),
   message text not null check (char_length(message) between 1 and 5000),
   is_internal_note boolean not null default false,
@@ -122,6 +122,9 @@ create table if not exists public.support_replies (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- O painel usa login próprio; o vínculo com auth.users é opcional.
+alter table public.support_replies alter column author_id drop not null;
 
 create index if not exists support_replies_request_idx
   on public.support_replies (support_request_id, created_at asc);

@@ -1,0 +1,26 @@
+name: Supabase heartbeat
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  query-database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Query one public heartbeat row
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          test -n "$SUPABASE_URL"
+          test -n "$SUPABASE_PUBLISHABLE_KEY"
+          response="$(curl --fail --silent --show-error --max-time 20 --retry 2 \
+            --header "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+            "${SUPABASE_URL%/}/rest/v1/project_heartbeat?select=id&limit=1")"
+          test "$response" = '[{"id":1}]'

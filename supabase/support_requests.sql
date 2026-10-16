@@ -30,6 +30,10 @@ create index if not exists support_requests_email_idx
 
 alter table public.support_requests enable row level security;
 
+revoke all on public.support_requests from anon, authenticated;
+grant insert on public.support_requests to anon;
+grant select, insert, update, delete on public.support_requests to authenticated;
+
 -- Limita cada e-mail a 2 solicitações em uma janela móvel de 24 horas.
 -- A trava por e-mail evita que envios simultâneos ultrapassem o limite.
 create or replace function public.enforce_support_request_rate_limit()
@@ -167,6 +171,18 @@ join public.support_requests as request on request.id = reply.support_request_id
 
 comment on table public.support_replies is 'Respostas e notas da equipe ligadas às solicitações do FlexHub';
 comment on view public.support_reply_details is 'Respostas acompanhadas dos dados da solicitação e do destinatário';
+
+-- Consulta pública mínima usada para verificar atividade do banco sem tocar em dados de suporte.
+create table if not exists public.project_heartbeat (
+  id smallint primary key check (id = 1)
+);
+insert into public.project_heartbeat (id) values (1) on conflict (id) do nothing;
+alter table public.project_heartbeat enable row level security;
+revoke all on public.project_heartbeat from anon, authenticated;
+grant select on public.project_heartbeat to anon;
+drop policy if exists "public can read heartbeat" on public.project_heartbeat;
+create policy "public can read heartbeat"
+  on public.project_heartbeat for select to anon using (id = 1);
 
 revoke all on public.support_replies from anon;
 grant select, insert, update, delete on public.support_replies to authenticated;

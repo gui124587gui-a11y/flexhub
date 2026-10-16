@@ -1,6 +1,5 @@
 const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
-// Temporarily disabled until the exposed service_role key is rotated.
-const SUPABASE_ANON_KEY = ''
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 export const isSupportConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY)
 
@@ -11,7 +10,6 @@ export async function createSupportRequest(payload) {
     method: 'POST',
     headers: {
       apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': 'application/json',
       Prefer: 'return=minimal',
     },

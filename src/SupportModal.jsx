@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ArrowLeft, CheckCircle2, HelpCircle, Loader2, MessageSquareText, Send, X } from 'lucide-react'
-import { createSupportRequest } from './lib/support'
+import { createSupportRequest, isSupportConfigured } from './lib/support'
 
 const options = {
   feedback: {
@@ -86,7 +86,7 @@ export default function SupportModal({ open, onClose }) {
           <h3 className="mt-5 font-display text-2xl font-bold">Mensagem recebida!</h3>
           <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-zinc-400">Obrigado pelo contato. Sua solicitação entrou na nossa fila de atendimento.</p>
           <button type="button" onClick={onClose} className="mt-7 rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-violet-500">Concluir</button>
-        </div> : !requestType ? <div className="grid gap-4 sm:grid-cols-2">
+        </div> : !isSupportConfigured ? <div className="py-8 text-center" role="status"><h3 className="font-display text-xl font-bold">Canal temporariamente indisponível</h3><p className="mt-3 text-sm leading-6 text-zinc-400">Estamos ajustando o formulário. Para falar com a equipe, escreva para <a className="text-violet-300 underline" href="mailto:gml.developer.br@gmail.com">gml.developer.br@gmail.com</a>.</p></div> : !requestType ? <div className="grid gap-4 sm:grid-cols-2">
           {Object.entries(options).map(([type, item]) => {
             const Icon = item.icon
             return <button key={type} type="button" onClick={() => selectType(type)} className="group rounded-2xl border border-white/[.08] bg-white/[.025] p-5 text-left transition hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-violet-500/[.07]">

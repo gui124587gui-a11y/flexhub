@@ -1,8 +1,7 @@
 const trimTrailingSlash = (value = '') => value.replace(/\/$/, '')
 
 const UPDATE_ORIGIN = trimTrailingSlash(
-  import.meta.env.VITE_DOWNLOAD_ORIGIN
-    || 'https://arrivals-reuters-gets-reduction.trycloudflare.com',
+  import.meta.env.VITE_DOWNLOAD_ORIGIN || '',
 )
 
 const route = (path) => `${UPDATE_ORIGIN}${path}`

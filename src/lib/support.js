@@ -1,5 +1,6 @@
 const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+// Temporarily disabled until the exposed service_role key is rotated.
+const SUPABASE_ANON_KEY = ''
 
 export const isSupportConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY)
 

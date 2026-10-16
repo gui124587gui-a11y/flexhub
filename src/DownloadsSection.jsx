@@ -76,7 +76,7 @@ async function loadManifests() {
     version ||= manifest.version
     if (arch === 'windows') {
       const exe = manifest.entries.find((entry) => fileType(entry.filename) === 'exe')
-      downloads['windows-x64'] = { url: DOWNLOAD_CHANNELS.windows.x64.url, format: 'exe', size: exe?.size }
+      if (exe) downloads['windows-x64'] = { url: DOWNLOAD_CHANNELS.windows.x64.url, format: 'exe', size: exe.size }
       continue
     }
     for (const entry of manifest.entries) {
@@ -87,7 +87,6 @@ async function loadManifests() {
       }
     }
   }
-  downloads['windows-x64'] ||= { url: DOWNLOAD_CHANNELS.windows.x64.url, format: 'exe' }
   return { version, downloads, partial: successful.length !== channels.length }
 }
 
@@ -146,7 +145,7 @@ export default function DownloadsSection() {
   const order = ['windows-x64', 'linux-x64-deb', 'linux-x64-appimage', 'linux-arm64-deb', 'linux-arm64-appimage']
   return <section id="download" className="px-5 py-24 lg:px-8" aria-labelledby="download-title"><div className="mx-auto max-w-6xl"><div className="text-center"><span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-violet-400"><Laptop size={15}/> Downloads oficiais</span><h2 id="download-title" className="mt-5 font-display text-4xl font-bold tracking-tight sm:text-6xl">Baixar <span className="text-gradient">FlexHub</span></h2><p className="mx-auto mt-5 max-w-2xl text-zinc-400">Escolha sua plataforma. A detecção apenas destaca a opção recomendada e nenhum download começa automaticamente.</p>{!platform.architecture && platform.os === 'linux' && <p className="mx-auto mt-4 max-w-xl rounded-xl border border-amber-400/20 bg-amber-500/[.06] px-4 py-3 text-sm text-amber-100">Não foi possível detectar seu processador. Compare claramente as opções <strong>Intel/AMD (x64)</strong> e <strong>ARM64</strong> abaixo.</p>}</div>
     {state.status === 'loading' && <div className="mt-12 flex items-center justify-center gap-3 text-zinc-400" role="status"><LoaderCircle className="animate-spin"/> Consultando versões e arquivos disponíveis…</div>}
-    {state.status === 'error' && <div className="mx-auto mt-12 max-w-xl rounded-2xl border border-red-400/20 bg-red-500/[.06] p-5 text-center"><AlertCircle className="mx-auto text-red-300"/><p className="mt-3 font-semibold">Não foi possível consultar os manifestos.</p><p className="mt-2 text-sm text-zinc-400">Versão, tamanho e links Linux estão temporariamente indisponíveis. O alias permanente do Windows continua disponível.</p><div className="mt-4 flex flex-col justify-center gap-2 sm:flex-row"><a href={DOWNLOAD_CHANNELS.windows.x64.url} onClick={() => track('download_clicked', { platform: 'Windows', architecture: 'x64', format: 'EXE', version: 'unknown' })} className="inline-flex items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-500"><Download size={15}/> Baixar para Windows</a><button onClick={load} className="rounded-lg border border-white/10 px-4 py-2 text-sm hover:bg-white/5">Tentar novamente</button></div></div>}
+    {state.status === 'error' && <div className="mx-auto mt-12 max-w-xl rounded-2xl border border-red-400/20 bg-red-500/[.06] p-5 text-center"><AlertCircle className="mx-auto text-red-300"/><p className="mt-3 font-semibold">Downloads temporariamente indisponíveis.</p><p className="mt-2 text-sm text-zinc-400">Não foi possível confirmar os arquivos no servidor. Tente novamente em alguns minutos.</p><button onClick={load} className="mt-4 rounded-lg border border-white/10 px-4 py-2 text-sm hover:bg-white/5">Tentar novamente</button></div>}
     {state.status === 'ready' && <><div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{order.map((id) => <DownloadCard key={id} id={id} item={state.data.downloads[id]} version={state.data.version} recommended={recommended === id}/>)}</div>{state.data.partial && <p className="mt-4 flex items-center justify-center gap-2 text-xs text-amber-300"><AlertCircle size={14}/> Alguns manifestos não responderam; somente arquivos confirmados estão habilitados.</p>}<InstallGuides version={state.data.version}/></>}
     <div className="mx-auto mt-8 flex max-w-4xl items-start gap-3 rounded-xl border border-white/[.07] bg-white/[.025] p-4 text-sm leading-6 text-zinc-400"><HardDrive className="mt-0.5 shrink-0 text-violet-400" size={18}/><p>Algumas ferramentas administrativas do FlexHub são exclusivas do Windows. Recursos como produtividade, notas, agenda, música, backups, cofre, chatbot e organização pessoal estão disponíveis no Linux e Chromebook.</p></div>
   </div></section>
